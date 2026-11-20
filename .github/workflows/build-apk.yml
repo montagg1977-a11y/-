@@ -12,9 +12,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Clean root duplicates
+      - name: Clean root duplicates & fix public folder
         run: |
           rm -f App.tsx main.tsx index.css types.ts constants.ts vite-env.d.ts
+          if [ -f public ]; then rm -f public; fi
+          mkdir -p public
+          cp -f icon-192.png icon-512.png icon.svg manifest.json public/ 2>/dev/null || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
