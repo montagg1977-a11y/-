@@ -12,6 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Clean root duplicates
+        run: |
+          rm -f App.tsx main.tsx index.css types.ts constants.ts vite-env.d.ts
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,12 +29,12 @@ jobs:
 
       - name: Install dependencies and build web app
         run: |
-          npm install
-          npm run build
+          npm install --legacy-peer-deps
+          npx vite build
 
       - name: Setup Capacitor Android
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
           npx cap init "Komisar AI" "ua.komisar.ai" --web-dir dist || true
           npx cap add android
 
